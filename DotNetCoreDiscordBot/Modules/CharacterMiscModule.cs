@@ -11,13 +11,13 @@ namespace DotNetDiscordBot.Modules
 {
     public class CharacterMiscModule : ModuleBase<SocketCommandContext>
     {
-        [Command("viewstat"), Ratelimit(1, 1, Measure.Minutes)]
+        [Command("viewstat"), Ratelimit(1, 5, Measure.Seconds)]
         public async Task ViewStatsAsync(string statToView)
         {
             var user = Context.User;
             await ViewStatsAsync(user, statToView);
         }
-        [Command("viewstat"), Ratelimit(1, 30, Measure.Seconds)]
+        [Command("viewstat"), Ratelimit(1, 5, Measure.Seconds)]
         public async Task ViewStatsAsync(SocketUser user, string statToView)
         {
             if (Services.CharacterUtilityService.CharacterExists(user))

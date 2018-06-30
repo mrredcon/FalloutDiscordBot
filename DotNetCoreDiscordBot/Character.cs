@@ -268,5 +268,9 @@ namespace DotNetDiscordBot
         {
             barter, energyweapons, explosives, guns, lockpick, medicine, meleeweapons, repair, science, sneak, speech, survival, unarmed
         }
+        public enum SpecialEnum
+        {
+            Strength,Perception,Endurance,Charisma,Intelligence,Agility,Luck
+        }
     }
 }
