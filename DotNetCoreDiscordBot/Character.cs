@@ -75,7 +75,7 @@ namespace DotNetDiscordBot
 
             public Skills()
             {
-                skillDict = new Dictionary<String, byte>(StringComparer.InvariantCultureIgnoreCase)
+                skillDict = new Dictionary<String, byte>(StringComparer.OrdinalIgnoreCase)
                 {
                     {"Barter", 1 },
                     {"EnergyWeapons", 1 },
@@ -96,7 +96,7 @@ namespace DotNetDiscordBot
             public Skills(byte barter, byte energyWeapons, byte explosives, byte guns, byte lockpick, byte medicine, byte meleeWeapons,
                 byte repair, byte science, byte sneak, byte speech, byte survival, byte unarmed)
             {
-                skillDict = new Dictionary<String, byte>(StringComparer.InvariantCultureIgnoreCase)
+                skillDict = new Dictionary<String, byte>(StringComparer.OrdinalIgnoreCase)
                 {
                     {"Barter", barter },
                     {"EnergyWeapons", energyWeapons },

@@ -46,6 +46,34 @@ namespace DotNetDiscordBot.Services
 
             return traits;
         }
+        public static CharacterStats.SPECIAL GetCharacterSpecial(SocketUser user)
+        {
+            if (CharacterExists(user))
+                return CharacterLoadService.LoadCharacter(user).CharSpecial;
+            else
+                return null;
+        }
+        public static CharacterStats.Skills GetCharacterSkills(SocketUser user)
+        {
+            if (CharacterExists(user))
+                return CharacterLoadService.LoadCharacter(user).CharSkills;
+            else
+                return null;
+        }
+        public static List<CharacterStats.Perk> GetCharacterPerks(SocketUser user)
+        {
+            if (CharacterExists(user))
+                return CharacterLoadService.LoadCharacter(user).CharPerks;
+            else
+                return null;
+        }
+        public static List<CharacterStats.Trait> GetCharacterTraits(SocketUser user)
+        {
+            if (CharacterExists(user))
+                return CharacterLoadService.LoadCharacter(user).CharTraits;
+            else
+                return null;
+        }
         // Looks through the assembly where Perk is declared, find all the subclasses of Perk, and instantiate each one and put in a List
         public static List<CharacterStats.Perk> GetAllPerks()
         {
