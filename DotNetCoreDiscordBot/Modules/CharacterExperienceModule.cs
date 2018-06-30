@@ -11,7 +11,7 @@ namespace DotNetDiscordBot.Modules
 {
     public class CharacterExperienceModule : ModuleBase<SocketCommandContext>
     {
-        [Command("addskill"), Ratelimit(1, 0.833, Measure.Minutes)]
+        [Command("addskill"), Ratelimit(1, 5, Measure.Seconds)]
         [Summary("Add skill points to a given skill. Must have skill points available.")]
         public async Task AddSkillPoints(string skill, int points)
         {
@@ -38,7 +38,7 @@ namespace DotNetDiscordBot.Modules
                     await ReplyAsync("You don't have enough skill points available to do that!");
             }
         }
-        [Command("addperk"), Ratelimit(1, 0.167, Measure.Minutes)]
+        [Command("addperk"), Ratelimit(1, 10, Measure.Seconds)]
         [Summary("Add perk points to a given skill. Must have skill points available.")]
         public async Task AddPerks(string perkToAdd, int points)
         {

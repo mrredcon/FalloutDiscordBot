@@ -17,7 +17,7 @@ namespace DotNetDiscordBot.Modules
             var user = Context.User;
             await ViewStatsAsync(user, statToView);
         }
-        [Command("viewstat"), Ratelimit(1, 0.5, Measure.Minutes)]
+        [Command("viewstat"), Ratelimit(1, 30, Measure.Seconds)]
         public async Task ViewStatsAsync(SocketUser user, string statToView)
         {
             if (Services.CharacterUtilityService.CharacterExists(user))

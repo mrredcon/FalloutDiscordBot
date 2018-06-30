@@ -62,7 +62,7 @@ namespace DotNetDiscordBot
                     temp += specialVal;
 
                 if (temp != 40)
-                    throw new ArgumentException("Given SPECIAL did not total to 40!");
+                    throw new ArgumentException("Given SPECIAL string did not total to 40!");
 
                 Strength = specialVals[0]; Perception = specialVals[1]; Endurance = specialVals[2]; Charisma = specialVals[3];
                 Intelligence = specialVals[4]; Agility = specialVals[5]; Luck = specialVals[6];

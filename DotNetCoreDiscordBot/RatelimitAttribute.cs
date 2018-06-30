@@ -47,6 +47,9 @@ namespace Discord.Addons.Preconditions
                 case Measure.Minutes:
                     _invokeLimitPeriod = TimeSpan.FromMinutes(period);
                     break;
+                case Measure.Seconds:
+                    _invokeLimitPeriod = TimeSpan.FromSeconds(period);
+                    break;
             }
         }
 
@@ -145,7 +148,10 @@ namespace Discord.Addons.Preconditions
         Hours,
 
         /// <summary> Period is measured in minutes. </summary>
-        Minutes
+        Minutes,
+
+        /// <summary> Period is measured in seconds.</summary>
+        Seconds
     }
 
     /// <summary> Used to set behavior of the ratelimit </summary>
