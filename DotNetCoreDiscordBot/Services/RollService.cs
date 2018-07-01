@@ -20,17 +20,14 @@ namespace DotNetDiscordBot.Services
             int rngResult = (int)Math.Round((rand.Next(1, 101) * (special.Luck / 10.0 - .5 + 1.0))),
                 skillAmount = skills.skillDict[skill.ToString()];
             
-            int difference = skillAmount - rngResult;
             // compares your roll with your skills, and how much better you did than the bare minimum
-            double successPercent = (double)difference / skillAmount;
+            double successPercent = (double)(skillAmount - rngResult) / skillAmount;
             successPercent = Math.Round(successPercent, 2) * 100;
-            // says much you failed in percent (sometimes gets to 300% and higher o.o )
-            double failurePercent = (double)rngResult / skillAmount;
+            // says much you failed in percent (sometimes gets to 300% and higher o-o )
+            double failurePercent = (double)rngResult / skillAmount - 1;
             failurePercent = Math.Round(failurePercent, 2) * 100;
 
             StringBuilder result = new StringBuilder();
-
-            //Console.WriteLine(skillAmount + " " + rngResult + " " + difference + " " + successPercent + " " + failurePercent);
 
             if (rngResult <= skillAmount)
             {
@@ -39,7 +36,7 @@ namespace DotNetDiscordBot.Services
                     // criticaler success (holy shit)
                     result.Append("**CRITICAL " + skill.ToString().ToUpper() + " SUCCESS!!!**");
                 }
-                if (successPercent >= 80)
+                else if (successPercent >= 80)
                 {
                     // critical success
                     result.Append("**CRITICAL " + skill.ToString().ToUpper() + " SUCCESS!**");
@@ -69,20 +66,16 @@ namespace DotNetDiscordBot.Services
                     // close call!
                     result.Append("__***CLOSE CALL! " + skill.ToString() + " success***__");
                 }
-                result.Append(" for " + user.Username + ": did " + successPercent + "% better than needed!");
+                result.Append(" for " + user.Username + ": did **" + successPercent + "%** better than needed!");
             }
             else
             {
-                //// TODO: fix this completely its broken as hell
-                //differencePercentage = Math.Round(differencePercentage, 2);
-                //differencePercentage *= -1;
-
                 if (failurePercent >= 90)
                 {
                     // criticaler failure (holy shit
                     result.Append("**CRITICAL " + skill.ToString().ToUpper() + " FAILURE!!!**");
                 }
-                if (failurePercent >= 80)
+                else if (failurePercent >= 80)
                 {
                     // critical failure
                     result.Append("**CRITICAL " + skill.ToString().ToUpper() + " FAILURE!**");
@@ -90,17 +83,17 @@ namespace DotNetDiscordBot.Services
                 else if (failurePercent >= 60)
                 {
                     // purty good (great) failure
-                    result.Append("__GREAT " + skill.ToString().ToUpper() + " FAILURE__");
+                    result.Append("__TERRIBLE " + skill.ToString().ToUpper() + " FAILURE__");
                 }
                 else if (failurePercent >= 40)
                 {
                     // good failure
-                    result.Append("*Very good " + skill.ToString() + " failure*");
+                    result.Append("*Pretty bad " + skill.ToString() + " failure*");
                 }
                 else if (failurePercent >= 25)
                 {
                     // decent
-                    result.Append("*Good " + skill.ToString() + " failure*");
+                    result.Append("*Bad " + skill.ToString() + " failure*");
                 }
                 else if (failurePercent >= 10)
                 {
@@ -139,8 +132,6 @@ namespace DotNetDiscordBot.Services
 
             StringBuilder result = new StringBuilder();
 
-            //Console.WriteLine(specialAmount + " " + rngResult + " " + difference + " " + successPercent + " " + failurePercent);
-
             if (rngResult <= specialAmount)
             {
                 if (successPercent >= 90)
@@ -148,7 +139,7 @@ namespace DotNetDiscordBot.Services
                     // criticaler success (holy shit)
                     result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " SUCCESS!!!**");
                 }
-                if (successPercent >= 80)
+                else if (successPercent >= 80)
                 {
                     // critical success
                     result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " SUCCESS!**");
@@ -178,7 +169,7 @@ namespace DotNetDiscordBot.Services
                     // close call!
                     result.Append("__***CLOSE CALL! " + rollSpecial.ToString() + " success***__");
                 }
-                result.Append(" for " + user.Username + ": did " + successPercent + "% better than needed!");
+                result.Append(" for " + user.Username + ": did **" + successPercent + "%** better than needed!");
             }
             else
             {
@@ -187,7 +178,7 @@ namespace DotNetDiscordBot.Services
                     // criticaler failure (holy shit
                     result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " FAILURE!!!**");
                 }
-                if (failurePercent >= 80)
+                else if (failurePercent >= 80)
                 {
                     // critical failure
                     result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " FAILURE!**");
