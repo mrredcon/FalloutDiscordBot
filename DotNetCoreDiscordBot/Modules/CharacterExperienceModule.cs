@@ -39,52 +39,10 @@ namespace DotNetDiscordBot.Modules
             }
         }
         [Command("addperk"), Ratelimit(1, 10, Measure.Seconds)]
-        [Summary("Add perk ranks to a given perk. Must have perk points available.")]
-        public async Task AddPerks(string perkToAdd, int points)
+        [Summary("Add a perk rank to a given perk. Must have perk points available.")]
+        public async Task AddPerk(string perkToAdd)
         {
-            var character = Services.CharacterLoadService.LoadCharacter(Context.User);
-            int oldCount = character.CharPerks.Count;
-
-            if (character == null)
-            {
-                await ReplyAsync("I couldn't find your character! " + Context.User.Mention + ".");
-                return;
-            }
-            if (character.RemainingPerkPoints <= 0)
-            {
-                await ReplyAsync("You don't have any perk points, " + Context.User.Mention + ".");
-                return;
-            }
-
-            foreach (var perk in Services.CharacterUtilityService.GetAllPerks())
-                if (perk.Name.ToLower().Equals(perkToAdd.ToLower())) // parameter case insensitivity
-                {
-                    if (character.CharPerks.Contains(perk)) // add another rank to perk instead of adding it to list
-                    {
-                        var charPerk = character.CharPerks.Find(x => x.Name.Equals(perk.Name));
-                        if (charPerk.CurrentPerkRanks < perk.PerkRanks)
-                        {
-                            charPerk.CurrentPerkRanks++;
-                            Services.CharacterUtilityService.OverwriteCharacter(character);
-                            await ReplyAsync("Added a rank to given perk!");
-                            return;
-                        }
-                        else
-                        {
-                            await ReplyAsync("You already have that perk at its max rank!");
-                        }
-                    }
-                    else
-                    {
-                        // TODO: actually check Skill and S.P.E.C.I.A.L. requirements
-                        character.CharPerks.Add(perk);
-                        Services.CharacterUtilityService.OverwriteCharacter(character);
-                        await ReplyAsync("Added perk!");
-                        return;
-                    }
-                }
-            if (oldCount == character.CharPerks.Count) // make sure we added a perk
-                await ReplyAsync("Failed to add the given perk.  (Check spelling!)");
+            await ReplyAsync(Services.ExperienceService.AddPerk(Context.User, perkToAdd));
         }
         [Command("viewperks"), Ratelimit(1, 10, Measure.Seconds)]
         [Summary("View perks that you meet the requirements for.")]

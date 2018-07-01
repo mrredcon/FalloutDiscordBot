@@ -23,6 +23,56 @@ namespace DotNetDiscordBot.Services
 
             CharacterUtilityService.OverwriteCharacter(character);
         }
+        public static string AddPerk(SocketUser user, string perkToAdd)
+        {
+            var character = CharacterLoadService.LoadCharacter(user);
+            int oldCount = character.CharPerks.Count;
+
+            if (character == null)
+            {
+                return "Couldn't find character!";
+            }
+            if (character.RemainingPerkPoints <= 0)
+            {
+                return "You don't have any skill points!";
+            }
+
+            foreach (var perk in CharacterUtilityService.GetAllPerks())
+            {
+                if (perk.Name.ToLower().Equals(perkToAdd.ToLower())) // parameter case insensitivity
+                {
+                    if (character.CharPerks.Contains(perk)) // add another rank to perk instead of adding it to list
+                    {
+                        var charPerk = character.CharPerks.Find(x => x.Name.Equals(perk.Name));
+                        if (charPerk.CurrentPerkRanks < perk.PerkRanks)
+                        {
+                            charPerk.CurrentPerkRanks++;
+                            CharacterUtilityService.OverwriteCharacter(character);
+                            return "Added a rank to the given perk!";
+                        }
+                        else
+                        {
+                            return "You already have that stat at its max rank!";
+                        }
+                    }
+                    else
+                    {
+                        // TODO: actually check Skill and S.P.E.C.I.A.L. requirements
+                        if (character.CharSpecial.IsGreaterThanOrEqualTo(perk.SpecialRequirement) &&
+                            character.CharSkills.IsGreaterThanOrEqualTo(perk.SkillRequirement))
+                        {
+                            character.CharPerks.Add(perk);
+                            CharacterUtilityService.OverwriteCharacter(character);
+                            return "Added perk!";
+                        }
+                    }
+                }
+            }
+            if (oldCount == character.CharPerks.Count) // make sure we added a perk
+                return "Failed to add the given perk.  (Check spelling!)";
+            else
+                return "idk wtf happened bro tell someone how you got here";
+        }
         public static byte GetCharacterLevel(SocketUser user)
         {
             if (CharacterUtilityService.CharacterExists(user)) // fancy way

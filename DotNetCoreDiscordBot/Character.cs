@@ -14,7 +14,7 @@ namespace DotNetDiscordBot
         [Serializable]
         public class SPECIAL
         {
-            // TODO: maybe convert to dictionary like I did with Skills
+            // probably need to reimplement this class somehow...
             public byte Strength { get; }
             public byte Perception { get; }
             public byte Endurance { get; }
@@ -67,6 +67,24 @@ namespace DotNetDiscordBot
                 Strength = specialVals[0]; Perception = specialVals[1]; Endurance = specialVals[2]; Charisma = specialVals[3];
                 Intelligence = specialVals[4]; Agility = specialVals[5]; Luck = specialVals[6];
             }
+            public SPECIAL(string special, List<Trait> traits) : this(special)
+            {
+                foreach (var trait in traits)
+                {
+                    if (trait.Name.Equals("Four Eyes"))
+                        Perception++;
+                    if (trait.Name.Equals("Small Frame"))
+                        Agility++;
+                }
+            }
+            public bool IsGreaterThanOrEqualTo(SPECIAL special2)
+            {
+                foreach (var property in typeof(SPECIAL).GetProperties())
+                    if ((byte)property.GetValue(this) < (byte)property.GetValue(special2))
+                        return false;
+
+                return true;
+            }
         }
         [Serializable]
         public class Skills
@@ -116,12 +134,37 @@ namespace DotNetDiscordBot
                     if (!CheckRange(item.Value)) // if its not in range...
                         throw new ArgumentOutOfRangeException(item.Key, "Skill was not in range from 1-100 inclusive.");
             }
+            public Skills(byte barter, byte energyWeapons, byte explosives, byte guns, byte lockpick, byte medicine, byte meleeWeapons,
+                byte repair, byte science, byte sneak, byte speech, byte survival, byte unarmed, List<Trait> traits) : 
+                this(barter, energyWeapons, explosives, guns, lockpick, medicine, meleeWeapons, repair, science, sneak, speech, survival, unarmed)
+            {
+                foreach (var trait in traits)
+                {
+                    if (trait.Name.Equals("Four Eyes"))
+                    {
+                        skillDict["EnergyWeapons"] -= 12;
+                        skillDict["Guns"] -= 12;
+                        if (skillDict["EnergyWeapons"] < 1)
+                            skillDict["EnergyWeapons"] = 1;
+                        if (skillDict["Guns"] < 1)
+                            skillDict["Guns"] = 1;
+                    }
+                }
+            }
             private bool CheckRange(byte skillValue)
             {
                 if (skillValue >= 1 && skillValue <= 100)
                     return true;
                 else
                     return false;
+            }
+            public bool IsGreaterThanOrEqualTo(Skills skill2)
+            {
+                foreach (var property in typeof(Skills).GetProperties())
+                    if ((byte)property.GetValue(this) < (byte)property.GetValue(skill2))
+                        return false;
+
+                return true;
             }
         }
         [Serializable]
@@ -148,7 +191,7 @@ namespace DotNetDiscordBot
             public class FourEyes : Trait
             {
                 public override string Name => "Four Eyes";
-                public override string Description => "Don't know what it does yet.  Maybe increases your PER +1, but reduces your ranged weapon rolls?";
+                public override string Description => "Increases PER +1, Guns & Energy Weapons -12";
                 public override string Abreviation => "fe";
             }
             [Serializable]

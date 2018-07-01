@@ -90,7 +90,7 @@ namespace DotNetDiscordBot.Modules
 
             try
             {
-                CharCreateService.SaveNewCharacter(Context.User, name, new CharacterStats.SPECIAL(special), skillTag1, skillTag2, skillTag3, traitList);
+                CharCreateService.SaveNewCharacter(Context.User, name, new CharacterStats.SPECIAL(special, charTraits), skillTag1, skillTag2, skillTag3, charTraits);
             }
             catch (Exception e)
             {
@@ -132,7 +132,7 @@ namespace DotNetDiscordBot.Modules
 
             try
             {
-                CharCreateService.SaveNewCharacter(Context.User, name, new CharacterStats.SPECIAL(special), skillTag1, skillTag2, skillTag3, traitList);
+                CharCreateService.SaveNewCharacter(Context.User, name, new CharacterStats.SPECIAL(special, charTraits), skillTag1, skillTag2, skillTag3, charTraits);
             }
             catch (Exception e)
             {

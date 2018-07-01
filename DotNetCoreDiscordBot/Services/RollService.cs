@@ -28,7 +28,7 @@ namespace DotNetDiscordBot.Services
             double failurePercent = (double)rngResult / skillAmount;
             failurePercent = Math.Round(failurePercent, 2) * 100;
 
-            string result = "";
+            StringBuilder result = new StringBuilder();
 
             //Console.WriteLine(skillAmount + " " + rngResult + " " + difference + " " + successPercent + " " + failurePercent);
 
@@ -37,39 +37,39 @@ namespace DotNetDiscordBot.Services
                 if (successPercent >= 90)
                 {
                     // criticaler success (holy shit)
-                    result = "**CRITICAL " + skill.ToString().ToUpper() + " SUCCESS!!!**";
+                    result.Append("**CRITICAL " + skill.ToString().ToUpper() + " SUCCESS!!!**");
                 }
                 if (successPercent >= 80)
                 {
                     // critical success
-                    result = "**CRITICAL " + skill.ToString().ToUpper() + " SUCCESS!**";
+                    result.Append("**CRITICAL " + skill.ToString().ToUpper() + " SUCCESS!**");
                 }
                 else if (successPercent >= 60)
                 {
                     // purty good (great) success
-                    result = "__GREAT " + skill.ToString().ToUpper() + " SUCCESS__";
+                    result.Append("__GREAT " + skill.ToString().ToUpper() + " SUCCESS__");
                 }
                 else if (successPercent >= 40)
                 {
                     // good success
-                    result = "*Very good " + skill.ToString() + " success*";
+                    result.Append("*Very good " + skill.ToString() + " success*");
                 }
                 else if (successPercent >= 25)
                 {
                     // decent
-                    result = "*Good " + skill.ToString() + " success*";
+                    result.Append("*Good " + skill.ToString() + " success*");
                 }
                 else if (successPercent >= 10)
                 {
                     // decent
-                    result = "*Above average " + skill.ToString() + " success*";
+                    result.Append("*Above average " + skill.ToString() + " success*");
                 }
                 else
                 {
                     // close call!
-                    result = "__***CLOSE CALL! " + skill.ToString() + " success***__";
+                    result.Append("__***CLOSE CALL! " + skill.ToString() + " success***__");
                 }
-                result += " for " + user.Username + ": did " + successPercent + "% better than needed!";
+                result.Append(" for " + user.Username + ": did " + successPercent + "% better than needed!");
             }
             else
             {
@@ -80,48 +80,49 @@ namespace DotNetDiscordBot.Services
                 if (failurePercent >= 90)
                 {
                     // criticaler failure (holy shit
-                    result = "**CRITICAL " + skill.ToString().ToUpper() + " FAILURE!!!**";
+                    result.Append("**CRITICAL " + skill.ToString().ToUpper() + " FAILURE!!!**");
                 }
                 if (failurePercent >= 80)
                 {
                     // critical failure
-                    result = "**CRITICAL " + skill.ToString().ToUpper() + " FAILURE!**";
+                    result.Append("**CRITICAL " + skill.ToString().ToUpper() + " FAILURE!**");
                 }
                 else if (failurePercent >= 60)
                 {
                     // purty good (great) failure
-                    result = "__GREAT " + skill.ToString().ToUpper() + " FAILURE__";
+                    result.Append("__GREAT " + skill.ToString().ToUpper() + " FAILURE__");
                 }
                 else if (failurePercent >= 40)
                 {
                     // good failure
-                    result = "*Very good " + skill.ToString() + " failure*";
+                    result.Append("*Very good " + skill.ToString() + " failure*");
                 }
                 else if (failurePercent >= 25)
                 {
                     // decent
-                    result = "*Good " + skill.ToString() + " failure*";
+                    result.Append("*Good " + skill.ToString() + " failure*");
                 }
                 else if (failurePercent >= 10)
                 {
                     // decent
-                    result = "*Above average " + skill.ToString() + " failure*";
+                    result.Append("*Above average " + skill.ToString() + " failure*");
                 }
                 else
                 {
                     // close call!
-                    result = "__***Heartbreaking " + skill.ToString() + " failure***__";
+                    result.Append("__***Heartbreaking " + skill.ToString() + " failure***__");
                 }
-                result += " for " + user.Username + ": did **" + failurePercent + "%** worse than needed!";
+                result.Append(" for " + user.Username + ": did **" + failurePercent + "%** worse than needed!");
             }
 
-            return result;
+            return result.ToString();
         }
         public string GetRollResult(Character.SpecialEnum rollSpecial, SocketUser user)
         {
             Random rand = new Random();
             //var skills = CharacterUtilityService.GetCharacterSkills(user);
             var charSpecial = CharacterUtilityService.GetCharacterSpecial(user);
+            var charTraits = CharacterUtilityService.GetCharacterTraits(user);
             //if (charSpecial == null) return null;
 
             // RNG influenced by character luck except when its 5
@@ -136,7 +137,7 @@ namespace DotNetDiscordBot.Services
             double failurePercent = (double)rngResult / specialAmount;
             failurePercent = Math.Round(failurePercent, 2) * 100;
 
-            string result = "";
+            StringBuilder result = new StringBuilder();
 
             //Console.WriteLine(specialAmount + " " + rngResult + " " + difference + " " + successPercent + " " + failurePercent);
 
@@ -145,85 +146,83 @@ namespace DotNetDiscordBot.Services
                 if (successPercent >= 90)
                 {
                     // criticaler success (holy shit)
-                    result = "**CRITICAL " + rollSpecial.ToString().ToUpper() + " SUCCESS!!!**";
+                    result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " SUCCESS!!!**");
                 }
                 if (successPercent >= 80)
                 {
                     // critical success
-                    result = "**CRITICAL " + rollSpecial.ToString().ToUpper() + " SUCCESS!**";
+                    result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " SUCCESS!**");
                 }
                 else if (successPercent >= 60)
                 {
                     // purty good (great) success
-                    result = "__GREAT " + rollSpecial.ToString().ToUpper() + " SUCCESS__";
+                    result.Append("__GREAT " + rollSpecial.ToString().ToUpper() + " SUCCESS__");
                 }
                 else if (successPercent >= 40)
                 {
                     // good success
-                    result = "*Very good " + rollSpecial.ToString() + " success*";
+                    result.Append("*Very good " + rollSpecial.ToString() + " success*");
                 }
                 else if (successPercent >= 25)
                 {
                     // decent
-                    result = "*Good " + rollSpecial.ToString() + " success*";
+                    result.Append("*Good " + rollSpecial.ToString() + " success*");
                 }
                 else if (successPercent >= 10)
                 {
                     // decent
-                    result = "*Above average " + rollSpecial.ToString() + " success*";
+                    result.Append("*Above average " + rollSpecial.ToString() + " success*");
                 }
                 else
                 {
                     // close call!
-                    result = "__***CLOSE CALL! " + rollSpecial.ToString() + " success***__";
+                    result.Append("__***CLOSE CALL! " + rollSpecial.ToString() + " success***__");
                 }
-                result += " for " + user.Username + ": did " + successPercent + "% better than needed!";
+                result.Append(" for " + user.Username + ": did " + successPercent + "% better than needed!");
             }
             else
             {
-                //// TODO: fix this completely its broken as hell
-                //differencePercentage = Math.Round(differencePercentage, 2);
-                //differencePercentage *= -1;
-
                 if (failurePercent >= 90)
                 {
                     // criticaler failure (holy shit
-                    result = "**CRITICAL " + rollSpecial.ToString().ToUpper() + " FAILURE!!!**";
+                    result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " FAILURE!!!**");
                 }
                 if (failurePercent >= 80)
                 {
                     // critical failure
-                    result = "**CRITICAL " + rollSpecial.ToString().ToUpper() + " FAILURE!**";
+                    result.Append("**CRITICAL " + rollSpecial.ToString().ToUpper() + " FAILURE!**");
                 }
                 else if (failurePercent >= 60)
                 {
                     // purty good (great) failure
-                    result = "__GREAT " + rollSpecial.ToString().ToUpper() + " FAILURE__";
+                    result.Append("__GREAT " + rollSpecial.ToString().ToUpper() + " FAILURE__");
                 }
                 else if (failurePercent >= 40)
                 {
                     // good failure
-                    result = "*Very good " + rollSpecial.ToString() + " failure*";
+                    result.Append("*Very good " + rollSpecial.ToString() + " failure*");
                 }
                 else if (failurePercent >= 25)
                 {
                     // decent
-                    result = "*Good " + rollSpecial.ToString() + " failure*";
+                    result.Append("*Good " + rollSpecial.ToString() + " failure*");
                 }
                 else if (failurePercent >= 10)
                 {
                     // decent
-                    result = "*Above average " + rollSpecial.ToString() + " failure*";
+                    result.Append("*Above average " + rollSpecial.ToString() + " failure*");
                 }
                 else
                 {
                     // close call!
-                    result = "__***Heartbreaking " + rollSpecial.ToString() + " failure***__";
+                    result.Append("__***Heartbreaking " + rollSpecial.ToString() + " failure***__");
                 }
-                result += " for " + user.Username + ": did **" + failurePercent + "%** worse than needed!";
+                result.Append(" for " + user.Username + ": did **" + failurePercent + "%** worse than needed!");
+                if (rollSpecial.Equals(Character.SpecialEnum.Agility) && charTraits.Contains(new CharacterStats.Trait.SmallFrame()))
+                    result.Append("\nCharacter has a **Small Frame!**");
             }
 
-            return result;
+            return result.ToString();
         }
     }
 }
